@@ -11,13 +11,24 @@ String.prototype.unformatMoney = function()
 
 (function($) {
     var settings = {};
-    
-    $.fn.editable = function(options) {
+
+    $.fn.editable = function(options, callback) 
+    {
+        if (typeof(options) == "function")
+        {
+            callback = options;
+            options = {};
+        }
+
+        if (callback == undefined)
+        {
+            callback = function(){};
+        }
 
         var set = $.extend({
-                    changed: function(old_value, new_value) { },
+                    changed: callback,
                     width  : 0,
-                    event  : "dblclick"
+                    event  : "click" // "dblclick"
                 }, options);
         
         $(this).each(function()
@@ -25,17 +36,15 @@ String.prototype.unformatMoney = function()
             $(this).on( set.event, function(){
 
                 var $element = $(this);
-                var old_data = parseInt( $element.html().unformatMoney() );
+                var old_data = $element.html(); // parseInt( $element.html().unformatMoney() );
 
                 if ($element.attr( "lp-editing" ) == "true")
                     return true;
 
                 $element.attr( "lp-editing", "true" );
 
-                if ( isNaN( old_data ) ) 
-                    old_data = 0;
-
                 var obj = $("<input type='text' name='current-editable' placeholder='" + old_data + "' />");
+                obj.val(old_data);
 
                 if (set.width !== 0)
                 {
@@ -66,6 +75,7 @@ String.prototype.unformatMoney = function()
 
                 $element.html(obj);
                 obj.focus();
+                obj.select();
             });
         });
     };

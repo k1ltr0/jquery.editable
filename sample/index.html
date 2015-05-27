@@ -1,9 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>jQuery.editable</title>
-</head>
-<body>
+    <head>
+        <title>jQuery.editable</title>
+    </head>
+    <body>
 
-</body>
+        <span class="editable" >Some text</span>
+        <span class="editable-validated" >validated</span>
+
+        <!-- jquery -->
+        <script type="text/javascript" src="../lib/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="../jquery.editable.js" ></script>
+        <script type="text/javascript">
+        $(document).ready(function()
+            {
+                // basic sample
+                $(".editable").editable();
+
+                // validate
+                $(".editable-validated").editable(
+                    function(old_data, new_data)
+                    {
+                        if (isNaN(parseFloat(new_data)))
+                        {
+                            this.html(0);
+                        }
+                    });
+            });
+        </script>
+
+    </body>
 </html>
