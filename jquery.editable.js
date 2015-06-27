@@ -77,6 +77,7 @@ String.prototype.unformatMoney = function()
                 obj.focus();
                 obj.select();
             });
+
         });
     };
 
